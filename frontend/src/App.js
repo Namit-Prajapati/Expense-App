@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { ExpensePage } from "./components/pages/ExpensePage";
 import Login from "./components/pages/Login";
 
 const App = () => {
+  const user = true;
   const router = createBrowserRouter([
     {
       path: "/",
@@ -11,7 +12,9 @@ const App = () => {
     },
     {
       path: "/expenses",
-      element: <ExpensePage />,
+      element:<>
+       {user ?<ExpensePage /> : <Navigate to="/" replace={true}/>}
+      </>, 
     },
   ]);
 
