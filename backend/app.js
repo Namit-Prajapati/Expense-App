@@ -22,6 +22,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/auth", authRoutes);
+//git test
 
 const URI = process.env.MONGO_URI;
 
