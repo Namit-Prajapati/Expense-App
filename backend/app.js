@@ -10,6 +10,8 @@ const app = express();
 
 app.use(bodyParser.json());
 
+require('dotenv').config();
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
@@ -17,9 +19,11 @@ app.use((req, res, next) => {
   next();
 });
 
+const URI=process.env.MONGO_URI;
+
 mongoose
   .connect(
-    "mongodb+srv://Namit5151:MERNstack@cluster0.9dlxj.mongodb.net/expenses?retryWrites=true&w=majority"
+    URI
   )
   .then((result) => {
     console.log("Connected!");
