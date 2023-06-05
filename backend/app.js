@@ -8,9 +8,11 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+const authRoutes = require("./routes/auth");
+
 app.use(bodyParser.json());
 
-require('dotenv').config();
+require("dotenv").config();
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -19,12 +21,12 @@ app.use((req, res, next) => {
   next();
 });
 
-const URI=process.env.MONGO_URI;
+app.use("/auth", authRoutes);
+
+const URI = process.env.MONGO_URI;
 
 mongoose
-  .connect(
-    URI
-  )
+  .connect(URI)
   .then((result) => {
     console.log("Connected!");
     app.listen(8001);
