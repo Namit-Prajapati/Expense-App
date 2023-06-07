@@ -1,18 +1,16 @@
 const express = require("express");
-
 const path = require("path");
-
 const mongoose = require("mongoose");
-
 const bodyParser = require("body-parser");
+require("dotenv").config();
 
 const app = express();
 
 const authRoutes = require("./routes/auth");
+const expensesRoutes = require("./routes/expenses")
 
 app.use(bodyParser.json());
 
-require("dotenv").config();
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -22,6 +20,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/expenses",expensesRoutes)
 //git test
 
 const URI = process.env.MONGO_URI;
