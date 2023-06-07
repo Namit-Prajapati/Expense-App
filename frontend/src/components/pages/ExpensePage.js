@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 
 import Expenses from "../Expenses/Expenses";
 //import ExpenseDemo from "./components/ExpenseDemo";
@@ -29,6 +28,26 @@ const demoExpenses = [
 
 export const ExpensePage = () => {
   const [expenses, setExpenses] = useState(demoExpenses);
+
+  useEffect(() => {
+    fetch("http://localhost:8001/expenses?userId=6480916097a1368effc892ec")
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        return res.expenses.map((expense) => {
+          const date = expense.date.split("-");
+          const newDate = new Date(+date[0], +date[1] - 1, +date[2]);
+          return { ...expense, date: newDate };
+        });
+      })
+      .then((expen) => {
+        setExpenses((prevExpenses) => {
+          return [...expen, ...prevExpenses];
+        });
+      });
+  },[]);
+
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
       return [expense, ...prevExpenses];

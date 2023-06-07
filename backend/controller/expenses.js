@@ -3,6 +3,9 @@ const User = require("../models/user");
 exports.getExpenses = async (req, res, next) => {
   const userId = req.query.userId;
   const user = await User.findById(userId);
+  if(user.expenses.length===0){
+    return res.status(200).json({message:"no expenses"})
+  }
   const expenses = [...user.expenses];
   res.status(200).json({ message: "expenses fetched", expenses: expenses });
 };

@@ -22,12 +22,17 @@ exports.signup = async (req, res, next) => {
 
   const hashedPass = await bcrypt.hash(pass, 12);
 
-  const user = await new User({
+  let user = await User.findOne({ email: email });
+  if (user) {
+    return res.status(403).json({ message: "user exists" });
+  }
+
+  user = await new User({
     email: email,
     password: hashedPass,
     expenses: [],
   });
 
   const newUser = await user.save();
-  res.status(200).json({ message: "User Added", user: newUser });
+  res.status(200).json({ message: "user added", user: newUser });
 };
