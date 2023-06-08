@@ -24,18 +24,16 @@ const Expenses = (props) => {
     console.log(expenseFilter);
   };
 
-  
-
   return (
     <div>
       <div className="expenses">
         <ExpensesFilter
+          years={props.years}
           selected={expenseFilter}
           onChangeFilter={saveChangedFilter}
         />
-        <ExpensesChart expenses={filteredList}/>
+        <ExpensesChart expenses={filteredList} />
         <ExpensesList items={filteredList} />
-        
       </div>
     </div>
   );

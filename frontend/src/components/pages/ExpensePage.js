@@ -6,20 +6,20 @@ import NewExpense from "../NewExpense/NewExpense";
 
 const demoExpenses = [
   {
-    id: "e1",
+    _id: "e1",
     title: "Toilet Paper",
     amount: 94.12,
     date: new Date(2020, 7, 14),
   },
-  { id: "e2", title: "New TV", amount: 799.49, date: new Date(2021, 2, 12) },
+  { _id: "e2", title: "New TV", amount: 799.49, date: new Date(2021, 2, 12) },
   {
-    id: "e3",
+    _id: "e3",
     title: "Car Insurance",
     amount: 294.67,
     date: new Date(2021, 2, 28),
   },
   {
-    id: "e4",
+    _id: "e4",
     title: "New Desk (Wooden)",
     amount: 450,
     date: new Date(2021, 5, 12),
@@ -28,6 +28,16 @@ const demoExpenses = [
 
 export const ExpensePage = () => {
   const [expenses, setExpenses] = useState(demoExpenses);
+  const [years, setYears] = useState([]);
+
+  const yearsHandler = (expenses) => {
+    const yearSet = new Set();
+    expenses.forEach((expense) => {
+      yearSet.add(expense.date.getFullYear());
+    });
+    setYears(Array.from(yearSet));
+    console.log(years);
+  };
 
   useEffect(() => {
     fetch("http://localhost:8001/expenses?userId=6480916097a1368effc892ec")
@@ -46,7 +56,11 @@ export const ExpensePage = () => {
           return [...expen, ...prevExpenses];
         });
       });
-  },[]);
+  }, []);
+
+  useEffect(() => {
+    yearsHandler(expenses);
+  }, [expenses]);
 
   const addExpenseHandler = (expense) => {
     setExpenses((prevExpenses) => {
@@ -58,7 +72,7 @@ export const ExpensePage = () => {
     <div>
       <NewExpense onAddExpense={addExpenseHandler} />
 
-      <Expenses items={expenses} />
+      <Expenses items={expenses} years={years} />
       {/* <ExpenseDemo expensedemo={expense[0]}/>
     <ExpenseDemo expensedemo={expense[1]}/>
     <ExpenseDemo expensedemo={expense[2]}/>
